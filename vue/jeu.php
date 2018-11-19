@@ -5,14 +5,6 @@ Class VueJeu{
     public function jeu(){
 
 
-//                         [nombrePontsMax, nombrePontsActuel, estSelectionne]
-$_SESSION['villes'][0][0]=[3, 0, 0];
-$_SESSION['villes'][0][6]=[2, 0, 0];
-$_SESSION['villes'][3][0]=[6, 0, 0];
-$_SESSION['villes'][3][5]=[2, 2, 0];
-$_SESSION['villes'][5][1]=[1, 0, 0];
-$_SESSION['villes'][5][6]=[2, 0, 1];
-$_SESSION['villes'][6][0]=[2, 0, 0];
 if(!isset($_SESSION['villes'])) {
     echo "erreur de grille de jeu"; //TODO: il faudra rediriger vers page d'erreur
 }
@@ -49,15 +41,15 @@ for ($x = 0; $x < 7; $x++){
     echo "<tr>";
     for ($y = 0; $y < 7; $y++){
         if (isset($_SESSION['villes'][$x][$y])) {
-            if ($_SESSION['villes'][$x][$y][2]){
+            if ($_SESSION['villes'][$x][$y]['estSelectionne']){
                 // Si la ville est selectionnée, on l'indique au joueur
-                echo "<th><a id='selected' href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y][0] . "</a></th>";
-            } else if($_SESSION['villes'][$x][$y][1]) {
+                echo "<th><a id='selected' href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y]['nbPontsMax'] . "</a></th>";
+            } else if($_SESSION['villes'][$x][$y]['nbPontsActuels']) {
                 // Si la ville a son max de ponts, on l'indique
-                echo "<th><a class='blocked' href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y][0] . "</a></th>";
+                echo "<th><a class='blocked' href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y]['nbPontsMax'] . "</a></th>";
             } else {
                 // Si la ville n'est ni selectionnée, ni max de ponts, on l'affiche juste
-                echo "<th><a href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y][0] . "</a></th>";
+                echo "<th><a href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y]['nbPontsMax'] . "</a></th>";
             }
         } else {
             echo "<th></th>";

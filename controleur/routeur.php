@@ -14,11 +14,12 @@ class Routeur {
 	}
 
 	public function routerRequete() {
-
-		
 		if(isset($_SESSION["pseudo"])){
-			echo 'test';
-			$this->jeu->jouer();
+		    if(isset($_GET['x']) && isset($_GET['y'])){
+                $this->jeu->jouer($_GET['x'], $_GET['y']);
+            } else {
+			    $this->jeu->init_jeu();
+            }
 		} else {
 			if(isset($_POST["seconnecter"]) && !empty($_POST["pseudo"]) && !empty($_POST["motdepasse"])) {
 				$this->authentification->selogin($_POST["pseudo"],$_POST["motdepasse"]);
@@ -31,8 +32,3 @@ class Routeur {
 		
 	
 }
-
-
-
-
-?>
