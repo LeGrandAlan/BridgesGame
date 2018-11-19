@@ -1,5 +1,10 @@
 <?php
-session_start();
+
+Class VueJeu{
+
+    public function jeu(){
+
+
 //                         [nombrePontsMax, nombrePontsActuel, estSelectionne]
 $_SESSION['villes'][0][0]=[3, 0, 0];
 $_SESSION['villes'][0][6]=[2, 0, 0];
@@ -62,3 +67,11 @@ for ($x = 0; $x < 7; $x++){
 }
 ?>
 </table>
+
+<?php
+
+}
+
+}
+
+?>

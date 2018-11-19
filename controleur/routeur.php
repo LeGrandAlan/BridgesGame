@@ -1,5 +1,5 @@
 <?php 
-
+session_start();
 require_once 'authentification.php';
 require_once 'contrjeu.php';
 
@@ -15,7 +15,9 @@ class Routeur {
 
 	public function routerRequete() {
 
+		
 		if(isset($_SESSION["pseudo"])){
+			echo 'test';
 			$this->jeu->jouer();
 		} else {
 			if(isset($_POST["seconnecter"]) && !empty($_POST["pseudo"]) && !empty($_POST["motdepasse"])) {

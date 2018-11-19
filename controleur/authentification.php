@@ -25,7 +25,10 @@ class Authentification{
 			$mdpscrype = $this->dao->getmotdepasse($pseudo);
 
 			if (crypt($motdepasse, $mdpscrype)== $mdpscrype){
-				echo "connecter";
+				                        
+				$_SESSION['pseudo']= $pseudo;
+				header('Location: index.php');
+
 			} else {
 				echo "mavais mot de passe";
 				$this->accueil();
