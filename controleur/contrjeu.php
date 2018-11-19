@@ -29,7 +29,20 @@ class Contrjeu{
 	}
 
 	public function jouer($x, $y){
-        $_SESSION['villes'][$x][$y]['estSelectionne'] = !$_SESSION['villes'][$x][$y]['estSelectionne'];
+	    // si une case n'a pas encore ete selectionnée
+	    if(!isset($_SESSION['selected']) || ($_SESSION['selected']['x'] == $x && $_SESSION['selected']['y'] == $y )){
+	        // si la case cliquée est la case deja selectionnée
+            if(isset($_SESSION['selected']) && $_SESSION['selected']['x'] == $x && $_SESSION['selected']['y'] == $y ){
+	            unset($_SESSION['selected']);
+            } else {
+                $_SESSION['selected'] = array('x' => $x, 'y' => $y);
+            }
+            //inverse la case cliquée
+            $_SESSION['villes'][$x][$y]['estSelectionne'] = !$_SESSION['villes'][$x][$y]['estSelectionne'];
+        } else {
+            // on va regarder si les deux villes sont liables
+            echo "voir si 2 villes liables";
+        }
         $this->vue->jeu();
     }
 }
