@@ -37,9 +37,9 @@ if(!isset($_SESSION['villes'])) {
 </style>
 <table>
 <?php
-for ($x = 0; $x < 7; $x++){
+for ($y = 0; $y < 7; $y++){
     echo "<tr>";
-    for ($y = 0; $y < 7; $y++){
+    for ($x = 0; $x < 7; $x++){
         if (isset($_SESSION['villes'][$x][$y])) {
             if ($_SESSION['villes'][$x][$y]['estSelectionne']){
                 // Si la ville est selectionnée, on l'indique au joueur

@@ -9,5 +9,4 @@ define("PATH_MODELE",HOME_SITE."/modele");
 define("HOST","localhost");
 define("BD","bridges_game_iut");
 define("LOGIN","root");
-define("PASSWORD","root");
-?>
+define("PASSWORD","");
