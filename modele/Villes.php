@@ -20,7 +20,11 @@ class Villes{
 
     // sélecteur qui retourne la ville en position $i et $j
     // précondition: la ville en position $i et $j existe
-
+    /**
+     * @param $i
+     * @param $j
+     * @return Ville
+     */
     function getVille($i,$j){
         return $this->villes[$i][$j];
     }
@@ -42,5 +46,16 @@ class Villes{
     }
 
     //rajout d'éventuelles méthodes
-
+    public function getCoord($ville){
+        for ($i=0; $i < 7; $i++) {
+            for ($j=0; $j < 7; $j++) {
+                if($this->existe($i, $j)){
+                    if($this->getVille($i, $j)->equals($ville)) {
+                        return array('x' => $i, 'y' => $j);
+                    }
+                }
+            }
+        }
+        return null;
+    }
 }
