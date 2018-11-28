@@ -60,29 +60,6 @@ for ($y = 0; $y < 7; $y++){
                 echo "<th></th>";
             }
         }
-        //var_dump($villes->getVille($x, $y));
-        /*if ($_SESSION['villes']->getVille($x, $y) != null) {
-            echo "qqch";
-            /*if(!is_array($_SESSION['villes'][$x][$y])){
-                echo "<th>". $_SESSION['villes'][$x][$y] ."</th>";
-            } else if ($_SESSION['villes'][$x][$y]['estSelectionne']){
-                // Si la ville est selectionnée, on l'indique au joueur
-                echo "<th><a id='selected' href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y]['nbPontsMax'] . "</a></th>";
-            } else if($_SESSION['villes'][$x][$y]['nbPontsActuels'] >= $_SESSION['villes'][$x][$y]['nbPontsMax']) {
-                // Si la ville a son max de ponts, on l'indique
-                echo "<th><a class='blocked' href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y]['nbPontsMax'] . "</a></th>";
-            } else {
-                // Si la ville n'est ni selectionnée, ni max de ponts, on l'affiche juste
-                echo "<th><a href='index.php?x=". $x ."&y=". $y ."'>" . $_SESSION['villes'][$x][$y]['nbPontsMax'] . "</a></th>";
-            }*/
-        /*} else {
-            echo "rien";
-            /*if(isset($_SESSION['ponts'][$x][$y])){
-                echo "<th>pont</th>";
-            } else {
-                echo "<th></th>";
-            }*/
-        //}
     }
     echo "</tr>";
 }

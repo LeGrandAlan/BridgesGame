@@ -60,12 +60,12 @@ class Villes{
     }
 
     public function sontToutesBonnes(){
-        //$sontToutesBonnes = true;
         for ($i=0; $i < 7; $i++) {
             for ($j=0; $j < 7; $j++) {
                 if($this->existe($i, $j)){
                     $ville = $this->getVille($i, $j);
-                    if($ville->getNombrePonts() < $ville->getNombrePontsMax()) {
+                    if($ville->getNombrePonts() < $ville->getNombrePontsMax()
+                        || $ville->getNombrePonts() > $ville->getNombrePontsMax()) {
                         return false;
                     }
                 }
