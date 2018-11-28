@@ -31,6 +31,9 @@ if(!isset($_SESSION['villes'])) {
     th a#selected {
         background-color: green;
     }
+    th a:hover {
+        background-color: lightgray;
+    }
     th a.blocked {
         background-color: red;
     }

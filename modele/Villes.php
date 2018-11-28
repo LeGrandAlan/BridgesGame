@@ -27,7 +27,7 @@ class Villes{
         $this->villes[1][5]=new Ville("4",1,0);
 
         $this->villes[3][3]=new Ville("5",4,0);
-        $this->villes[3][5]=new Ville("6",4,0);
+        $this->villes[3][6]=new Ville("6",4,0);
 
         $this->villes[4][0]=new Ville("7",2,0);
         $this->villes[4][4]=new Ville("8",2,0);
@@ -114,4 +114,60 @@ class Villes{
         }
         return true;
     }
+
+    /**
+     * Indique si les deux villes peuvent être liées sur une colonne (si il n'y a pas de ville entre)
+     * @param $ville1 Ville ville de départ
+     * @param $ville2 Ville ville d'arrivé
+     * @param $ponts Ponts ponts
+     * @return bool vrai si sont liables, faux sinon
+     */
+    public function sontLiablesHorizontalement($ville1, $ville2, $ponts){
+        $matricePonts = $ponts->matricePonts();
+        $v1Coord = $this->getCoord($ville1);
+        $v2Coord = $this->getCoord($ville2);
+
+        $minx = min($v1Coord['x'], $v2Coord['x']) + 1;
+        $maxx = max($v1Coord['x'], $v2Coord['x']) - 1;
+        $sontLiables = !($minx > $maxx);//si min et max sont = ou max plus petit alors false sinon true
+
+        $i=$minx;
+        // on regarde si il n'y a pas de ville ou de pont ENTRE les deux, d'où le -1 et le +1
+        while ($sontLiables && $i <= $maxx){
+            if($this->existe($i, $v1Coord['y']) ||
+                (isset($matricePonts[$i][$v1Coord['y']]) && ($matricePonts[$i][$v1Coord['y']] == "|" || $matricePonts[$i][$v1Coord['y']] == "||"))){//peut importe le y, c'est le même pour les deux villes
+                $sontLiables = false;
+            }
+            $i++;
+        }
+        return $sontLiables;
+    }
+
+    /**
+     * Indique si les deux villes peuvent être liées sur une ligne (si il n'y a pas de ville entre)
+     * @param $ville1 Ville ville de départ
+     * @param $ville2 Ville ville d'arrivé
+     * @param $ponts Ponts ponts
+     * @return bool vrai si sont liables, faux sinon
+     */
+    public function sontLiablesVerticalement($ville1, $ville2, $ponts){
+        $matricePonts = $ponts->matricePonts();
+        $v1Coord = $this->getCoord($ville1);
+        $v2Coord = $this->getCoord($ville2);
+
+        $miny = min($v1Coord['y'], $v2Coord['y']) + 1;
+        $maxy = max($v1Coord['y'], $v2Coord['y']) - 1;
+
+        $sontLiables = !($miny > $maxy);//si min et max sont = ou max plus petit alors false sinon true
+        $i=$miny;
+        while ($sontLiables && $i <= $maxy){
+            if($this->existe($v1Coord['x'], $i) || //TODO: améliorer le test - --
+                (isset($matricePonts[$v1Coord['x']][$i]) && ($matricePonts[$v1Coord['x']][$i] == "-" || $matricePonts[$v1Coord['x']][$i] == "--"))){//peut importe le x, c'est le même pour les deux villes
+                $sontLiables = false;
+            }
+            $i++;
+        }
+        return $sontLiables;
+    }
+
 }
