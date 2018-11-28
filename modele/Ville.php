@@ -47,4 +47,13 @@ class Ville{
         return $equals;
     }
 
+    public function compareTo($ville){
+        if($this->equals($ville)) return 0;
+
+        if($this->id > $ville->id){
+            return 1;
+        }
+        return -1;
+    }
+
 }

@@ -56,6 +56,8 @@ class Contrjeu{
                 $ville1 = $this->modeleVilles->getVille($_SESSION['selectionne']['x'], $_SESSION['selectionne']['y']);
                 $ville2 = $this->modeleVilles->getVille($x, $y);
 
+                //pas de problème, les villes sont les bonnes
+
                 $horizontal = null;
                 if($this->sontLiablesHorizontalement($x, $y)){
                     $horizontal = true;
@@ -69,7 +71,6 @@ class Contrjeu{
                 }
 
                 //ajout du pont sur la "carte" des ponts
-
                 if($this->modelePonts->pontExiste($ville1, $ville2, $horizontal)){
                     $pont = $this->modelePonts->getPont($ville1, $ville2, $horizontal);
                     $differencePont = $pont->ajouterVoie($ville1, $ville2);
@@ -88,19 +89,20 @@ class Contrjeu{
                 unset($_SESSION['selectionne']);
 
             } else {
-                echo "pas sur même ligne ou même colonne";
+                echo "Vous ne pouvez pas créer de pont entre ces deux villes !";
             }
 
         }
+
+        if($this->modeleVilles->sontToutesBonnes()){
+            echo "ET C'EST GAGNE !!!";
+        }
+
         //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)
         $_SESSION['villes'] = serialize($this->modeleVilles);
         $_SESSION['ponts'] = serialize($this->modelePonts);
 
         $this->vue->jeu();
-        echo "<pre>";
-        //var_dump($this->modelePonts->ponts);
-        var_dump($this->modelePonts->matricePonts());
-        echo "</pre>";
     }
 
     public function sontLiablesVerticalement($x, $y){

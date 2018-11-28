@@ -58,4 +58,19 @@ class Villes{
         }
         return null;
     }
+
+    public function sontToutesBonnes(){
+        //$sontToutesBonnes = true;
+        for ($i=0; $i < 7; $i++) {
+            for ($j=0; $j < 7; $j++) {
+                if($this->existe($i, $j)){
+                    $ville = $this->getVille($i, $j);
+                    if($ville->getNombrePonts() < $ville->getNombrePontsMax()) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }

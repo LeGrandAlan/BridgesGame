@@ -12,13 +12,33 @@ class Ponts
     }
 
     public function getPont($v1, $v2, $horizontal) {
-        $indice = array_search(new Pont(min($v1, $v2), max($v1, $v2), $horizontal), $this->ponts);
-        return $this->ponts[$indice];
+        $trouve = false;
+        $i = 0;
+
+        if($v1->compareTo($v2) <= 0){
+            $pont = new Pont($v1, $v2, $horizontal);
+        } else {
+            $pont = new Pont($v2, $v1, $horizontal);
+        }
+
+        while (!$trouve && $i < sizeof($this->ponts)) {
+            if(isset($this->ponts[$i]) && $this->ponts[$i]->equals($pont)) {
+                $trouve = true;
+            }
+            $i++;
+        }
+        return $this->ponts[$i - 1];
     }
 
+    //TODO: faire en sorte que les ponts soient les même dans les deux sens
+
     public function ajoutPont($v1, $v2, $horizontal) {
-        //utilisation de min et max pour que les deux sens soient prient en compte
-        array_push($this->ponts, new Pont(min($v1, $v2), max($v1, $v2), $horizontal));
+        //la ville ayant l'id le plus petit est le départ => pour que les deux sens soient prient en compte
+        if($v1->compareTo($v2) <= 0){
+            array_push($this->ponts, new Pont($v1, $v2, $horizontal));
+        } else {
+            array_push($this->ponts, new Pont($v2, $v1, $horizontal));
+        }
     }
 
     public function supprimerPont($pont) {
@@ -28,9 +48,15 @@ class Ponts
     public function pontExiste($v1, $v2, $horizontal) {
         $existe = false;
         $i = 0;
-        $pont = new Pont(min($v1, $v2), max($v1, $v2), $horizontal);
+
+        if($v1->compareTo($v2) <= 0){
+            $pont = new Pont($v1, $v2, $horizontal);
+        } else {
+            $pont = new Pont($v2, $v1, $horizontal);
+        }
+
         while (!$existe && $i < sizeof($this->ponts)) {
-            if($this->ponts[$i]->equals($pont)) {
+            if(isset($this->ponts[$i]) && $this->ponts[$i]->equals($pont)) {
                 $existe = true;
             }
             $i++;
@@ -49,7 +75,6 @@ class Ponts
 
             if($pont->estHorizontal() == true) {
                 for($x=$coordv1['x']+1; $x <= $coordv2['x']-1; $x++) {
-                    //todo: penser à unset quand == 0
                     if ($nbVoies == 1){
                         $matrice[$x][$coordv1['y']] = '-';
                     } else if($nbVoies == 2) {
