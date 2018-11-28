@@ -56,17 +56,15 @@ class Contrjeu{
                 $ville1 = $this->modeleVilles->getVille($_SESSION['selectionne']['x'], $_SESSION['selectionne']['y']);
                 $ville2 = $this->modeleVilles->getVille($x, $y);
 
-                //pas de problème, les villes sont les bonnes
-
                 $horizontal = null;
                 if($this->sontLiablesHorizontalement($x, $y)){
                     $horizontal = true;
                 } else if($this->sontLiablesVerticalement($x, $y)) {
                     $horizontal = false;
                 } else {
-                    //ne sont pas liables
-                    //TODO: à remplir car actuellement pas de cas comme cela
-                    //TODO: c'est quand il y a une ville (ou un pont) entre les deux villes
+                    //ne sont pas liables => il y a un pont ou une ville entre les deux villes
+                    echo "Les villes ne sont pas liables car il y a une ville ou un pont entre les deux villes sélectionnée !";
+                    $this->vue->jeu();
                     return;
                 }
 
@@ -109,10 +107,11 @@ class Contrjeu{
         $miny = min($_SESSION['selectionne']['y'], $y) + 1;
         $maxy = max($_SESSION['selectionne']['y'], $y) - 1;
 
-        $sontLiables = !($miny >= $maxy);//si min et max sont = ou max plus petit alors false sinon true
+        $sontLiables = !($miny > $maxy);//si min et max sont = ou max plus petit alors false sinon true
         $i=$miny;
-        while ($sontLiables && $i <= $maxy){
-            if($this->modeleVilles->existe($x, $i)){
+        $matricePonts = $this->modelePonts->matricePonts();
+        while ($sontLiables && $i <= $maxy){ //TODO: rendre plus propre $matricePonts...
+            if($this->modeleVilles->existe($x, $i) || isset($matricePonts[$x][$i])){
                 $sontLiables = false;
             }
             $i++;
@@ -124,11 +123,16 @@ class Contrjeu{
         $minx = min($_SESSION['selectionne']['x'], $x) + 1;
         $maxx = max($_SESSION['selectionne']['x'], $x) - 1;
 
-        $sontLiables = !($minx >= $maxx);//si min et max sont = ou max plus petit alors false sinon true
+        $sontLiables = !($minx > $maxx);//si min et max sont = ou max plus petit alors false sinon true
         $i=$minx;
+        $matricePonts = $this->modelePonts->matricePonts();
         // on regarde si il n'y a pas de ville ENTRE les deux, d'où le -1 et le +1
-        while ($sontLiables && $i <= $maxx){
-            if($this->modeleVilles->existe($i, $y)){
+
+        //TODO: il faut tester si un pont existe déjà et qu'on est sur ce pont, dans ce sens là (horizontal)
+        // on va tester si la première ville est lié avec la deuxième
+
+        while ($sontLiables && $i <= $maxx){ //TODO: rendre plus propre $matricePonts...
+            if($this->modeleVilles->existe($i, $y) || isset($matricePonts[$i][$y])){
                 $sontLiables = false;
             }
             $i++;
