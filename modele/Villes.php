@@ -162,7 +162,7 @@ class Villes{
         $i=$miny;
         while ($sontLiables && $i <= $maxy){
             if($this->existe($v1Coord['x'], $i) || //TODO: améliorer le test - --
-                (isset($matricePonts[$v1Coord['x']][$i]) && ($matricePonts[$v1Coord['x']][$i] == "-" || $matricePonts[$v1Coord['x']][$i] == "--"))){//peut importe le x, c'est le même pour les deux villes
+                (isset($matricePonts[$v1Coord['x']][$i]) && ($matricePonts[$v1Coord['x']][$i] == "-" || $matricePonts[$v1Coord['x']][$i] == "="))){//peut importe le x, c'est le même pour les deux villes
                 $sontLiables = false;
             }
             $i++;
