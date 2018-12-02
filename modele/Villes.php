@@ -135,7 +135,7 @@ class Villes{
         // on regarde si il n'y a pas de ville ou de pont ENTRE les deux, d'où le -1 et le +1
         while ($sontLiables && $i <= $maxx){
             if($this->existe($i, $v1Coord['y']) ||
-                (isset($matricePonts[$i][$v1Coord['y']]) && ($matricePonts[$i][$v1Coord['y']] == "|" || $matricePonts[$i][$v1Coord['y']] == "||"))){//peut importe le y, c'est le même pour les deux villes
+                (isset($matricePonts[$i][$v1Coord['y']]) && $matricePonts[$i][$v1Coord['y']][0] == 'v')){//peut importe le y, c'est le même pour les deux villes
                 $sontLiables = false;
             }
             $i++;
@@ -158,11 +158,11 @@ class Villes{
         $miny = min($v1Coord['y'], $v2Coord['y']) + 1;
         $maxy = max($v1Coord['y'], $v2Coord['y']) - 1;
 
-        $sontLiables = !($miny > $maxy);//si min et max sont = ou max plus petit alors false sinon true
+        $sontLiables = !($miny > $maxy); //si min et max sont = ou max plus petit alors false sinon true
         $i=$miny;
         while ($sontLiables && $i <= $maxy){
-            if($this->existe($v1Coord['x'], $i) || //TODO: améliorer le test - --
-                (isset($matricePonts[$v1Coord['x']][$i]) && ($matricePonts[$v1Coord['x']][$i] == "-" || $matricePonts[$v1Coord['x']][$i] == "="))){//peut importe le x, c'est le même pour les deux villes
+            if($this->existe($v1Coord['x'], $i) ||
+                (isset($matricePonts[$v1Coord['x']][$i]) && $matricePonts[$v1Coord['x']][$i][0] == 'h')){//peut importe le x, c'est le même pour les deux villes
                 $sontLiables = false;
             }
             $i++;

@@ -93,7 +93,7 @@ class Ponts
 
     /**
      * Génère une matrice avec les ponts dessinés
-     * @return array matrice (deux tableaux)
+     * @return array matrice (2D -> deux tableaux)
      */
     public function matricePonts(){
         $matrice = null;
@@ -107,17 +107,17 @@ class Ponts
             if($pont->estHorizontal() == true) {
                 for($x=$coordv1['x']+1; $x <= $coordv2['x']-1; $x++) {
                     if ($nbVoies == 1){
-                        $matrice[$x][$coordv1['y']] = '-';
+                        $matrice[$x][$coordv1['y']] = 'h1'; // 1 voie horizontalle
                     } else if($nbVoies == 2) {
-                        $matrice[$x][$coordv1['y']] = '=';
+                        $matrice[$x][$coordv1['y']] = 'h2'; // 2 voies horizontalles
                     }
                 }
             } else {
                 for($y=$coordv1['y']+1; $y <= $coordv2['y']-1; $y++) {
                     if ($nbVoies == 1){
-                        $matrice[$coordv1['x']][$y] = '|';
+                        $matrice[$coordv1['x']][$y] = 'v1'; // 1 voie verticale
                     } else if($nbVoies == 2) {
-                        $matrice[$coordv1['x']][$y] = '||';
+                        $matrice[$coordv1['x']][$y] = 'v2'; // 2 voies vertiales
                     }
                 }
             }

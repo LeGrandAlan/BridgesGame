@@ -4,18 +4,19 @@ require_once PATH_MODELE.'/Villes.php';
 require_once PATH_MODELE.'/Ville.php';
 require_once PATH_MODELE.'/Ponts.php';
 
-class Contrjeu{
+class Contrjeu {
 
-	private $vue;
-	private $modeleVilles;
-	private $modelePonts;
+    private $vue;
+    private $modeleVilles;
+    private $modelePonts;
+    private $pilePonts;
 
-	public function __construct() {
-		$this->vue = new VueJeu();
-	}
+    public function __construct() {
+        $this->vue = new VueJeu();
+    }
 
-	//TODO: attention ne marche que pour grille de 7*7
-	public function init_jeu(){
+    //TODO: attention ne marche que pour grille de 7*7
+    public function init_jeu(){
         if(isset($_SESSION["selectionne"])){
             unset($_SESSION["selectionne"]);
         }
@@ -25,21 +26,26 @@ class Contrjeu{
         if(isset($_SESSION['ponts'])){
             unset($_SESSION['ponts']);
         }
+        if(isset($_SESSION['pile_ponts'])) {
+            unset($_SESSION['pile_ponts']);
+        }
 
         $this->modeleVilles = new Villes();
         $_SESSION['villes'] = serialize($this->modeleVilles);
         $this->modelePonts = new Ponts();
         $_SESSION['ponts'] = serialize($this->modelePonts);
+        $this->pilePonts = array();
+        $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
-		$this->vue->jeu();
-	}
+        $this->vue->jeu();
+    }
 
-	public function jouer($x, $y){
-	    //chargement des villes et des ponts en utilisant leurs modèles
+    public function jouer($x, $y){
+        //chargement des villes et des ponts en utilisant leurs modèles
         $this->modeleVilles = unserialize($_SESSION['villes']);
         $this->modelePonts = unserialize($_SESSION['ponts']);
 
-	    // si une case n'a pas encore été selectionnée ou que le case cliquée est celle déjà sélectionnée
+        // si une case n'a pas encore été selectionnée ou que le case cliquée est celle déjà sélectionnée
         if(!isset($_SESSION['selectionne']) || ($_SESSION['selectionne']['x'] == $x && $_SESSION['selectionne']['y'] == $y )){
             // si la case cliquée est la case deja selectionnée
             if(isset($_SESSION['selectionne']) && $_SESSION['selectionne']['x'] == $x && $_SESSION['selectionne']['y'] == $y ){
@@ -92,7 +98,9 @@ class Contrjeu{
         }
 
         if($this->modeleVilles->sontToutesBonnes()){
-            echo "ET C'EST GAGNE !!!";
+            $_SESSION['gagne'] = true;
+            header('Location: index.php');
+            //echo "ET C'EST GAGNE !!!";
         }
 
         //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)

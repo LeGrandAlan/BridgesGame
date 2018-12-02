@@ -1,6 +1,6 @@
 <?php 
 
-require_once PATH_MODELE.'/dao.php';
+require_once PATH_DAO . '/DAOJoueurs.php';
 require_once PATH_VUE.'/login.php';
 
 
@@ -10,8 +10,12 @@ class Authentification{
 	private $vue;
 
 	public function __construct() {
-		$this->dao = new Dao();
-		$this->vue = new Vuelogin();
+        try {
+            $this->dao = new DAOJoueurs();
+        } catch (ConnexionException $e) {
+            //TODO: page d'erreur de connection
+        }
+        $this->vue = new Vuelogin();
 	}
 
 
