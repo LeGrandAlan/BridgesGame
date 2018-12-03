@@ -44,6 +44,7 @@ class Contrjeu {
         //chargement des villes et des ponts en utilisant leurs modèles
         $this->modeleVilles = unserialize($_SESSION['villes']);
         $this->modelePonts = unserialize($_SESSION['ponts']);
+        $this->pilePonts = unserialize($_SESSION['pile_ponts']);
 
         // si une case n'a pas encore été selectionnée ou que le case cliquée est celle déjà sélectionnée
         if(!isset($_SESSION['selectionne']) || ($_SESSION['selectionne']['x'] == $x && $_SESSION['selectionne']['y'] == $y )){
@@ -78,12 +79,15 @@ class Contrjeu {
                 if($this->modelePonts->pontExiste($ville1, $ville2, $horizontal)){
                     $pont = $this->modelePonts->getPont($ville1, $ville2, $horizontal);
                     $differencePont = $pont->ajouterVoie($ville1, $ville2);
+                    $this->pilePonts = array_push($this->pilePonts, array($pont, $differencePont)); // TODO: /!\ pas le même type
+                    print_r(array($pont, $differencePont));
                     if($differencePont == -2) {
                         $this->modelePonts->supprimerPont($pont);
                     }
                 } else {
                     $this->modelePonts->ajoutPont($ville1, $ville2, $horizontal);
                     $differencePont = 1;
+                    $this->pilePonts = array_push($this->pilePonts, array(new Pont($ville1, $ville2, $horizontal), $differencePont));
                 }
 
                 //ajout ou suppression de pont(s) à chaque ville
@@ -103,9 +107,14 @@ class Contrjeu {
             //echo "ET C'EST GAGNE !!!";
         }
 
+        echo "<pre>";
+        print_r($this->pilePonts);
+        echo "</pre>";
+
         //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)
         $_SESSION['villes'] = serialize($this->modeleVilles);
         $_SESSION['ponts'] = serialize($this->modelePonts);
+        $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
         $this->vue->jeu();
     }
