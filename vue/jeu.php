@@ -8,72 +8,10 @@ Class VueJeu{
 if(!isset($_SESSION['villes'])) {
     echo "erreur de grille de jeu"; //TODO: il faudra rediriger vers page d'erreur
 }
-?>
-<style>
-    h1 {
-        text-align: center;
-        margin: 40px 0;
-    }
-    table {
-        border: 1px solid black;
-        margin: auto;
-        border-collapse: collapse;
-    }
-    th {
-        width: 50px;
-        height: 50px;
-        padding: 0;
 
-        font-weight: bold;
-    }
-    th a {
-        display: flex;
-        flex-flow: column;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background-color: lightgray;
-        border-radius: 50%;
-        text-decoration: none;
-        color: black;
-    }
-    th a#selected {
-        background-color: green;
-    }
-    th a:hover {
-        background-color: gray;
-    }
-    th a.blocked {
-        background-color: red;
-    }
-    th a.validated {
-        background-color: blue;
-    }
-    .actions {
-        text-align: center;
-        margin-bottom: 60px;
-    }
-    .actions a {
-        padding: 5px;
-        background-color: lightgray;
-        border: 1px solid black;
-        text-decoration: none;
-        color: #000;
-    }
-    div.horizontal {
-        width: 100%;
-        height: 3px;
-        background-color: grey;
-        margin-bottom: 2px;
-    }
-    div.vertical {
-        width: 3px;
-        height: 100%;
-        background-color: grey;
-        margin-right: 2px;
-        display: inline-block;
-    }
-</style>
+require_once 'head.php';
+?>
+
 
 <h1>Jeu d'Hashiwokakero (Bridges Game)</h1>
 <div class="actions">
@@ -82,7 +20,7 @@ if(!isset($_SESSION['villes'])) {
     <a href="index.php?annulercoup">Annuler le coup prédécent</a>
 </div>
         <div class="erreur"><?php if (isset($_SESSION['erreur'])){ echo $_SESSION['erreur'];} ?></div>
-<table>
+<table id="grille">
 <?php
 unset($_SESSION['erreur']);
 $villes = unserialize($_SESSION['villes']);

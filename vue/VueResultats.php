@@ -1,16 +1,18 @@
 <?php
-
+require_once 'head.php';
 Class VueResultats
 {
+
     public function resultats($partieGagnee, $partiesGagneesJoueur, $partiesJoueesJoueur, $meilleursResultats, $ratios) {
         if($partieGagnee) {
-            echo "Vous avez gagné !<br>";
+            echo "<h1>Vous avez gagné !</h1>";
         } else if ($partieGagnee) {
-            echo "Vous avez perdu..<br>";
+            echo "<h1>Vous avez perdu..</h1>";
         } // si $partieGagnee == null on n'affiche pas
     ?>
 
     <h1>Vos statistiques</h1>
+    <div class="resultatText">
     <?php
         if(empty($partiesGagneesJoueur) || empty($partiesJoueesJoueur)) {
             echo "<p>Vous n'avez pas encore joué.</p>";
@@ -19,27 +21,48 @@ Class VueResultats
             echo "<p>Nombre de parties jouées : $partiesJoueesJoueur</p>";
         }
     ?>
+    </div>
 
     <h1>Les meilleurs résultats</h1>
+    <table class="resultat">
+    <tr>
+        <th>Place</th>
+        <th>Pseudo</th>
+        <th>Nombre de parties gagnées</th>
+    </tr>
     <?php if (empty($meilleursResultats)) echo "Personne n'a encore joué.."; ?>
-    <ol>
         <?php
         foreach ($meilleursResultats as $resultat){
-            echo '<li>'. $resultat["pseudo"] .' : '. $resultat["partiesGagnee"] .'</li>';
+            echo "<tr>";
+            echo "<td>1</td>";
+            echo "<td>".$resultat['pseudo']."</td>";
+            echo "<td>".$resultat['partiesGagnee']."</td>";
+            echo "</tr>";
         }
         ?>
-    </ol>
+    </table>
 
     <h1>Les meilleurs ratios</h1>
+    <table class="resultat">
+    <tr>
+        <th>Place</th>
+        <th>Pseudo</th>
+        <th>Ration parties gagnées/parties jouées</th>
+    </tr>
     <?php if (empty($meilleursResultats)) echo "Personne n'a encore joué.."; ?>
-    <ol>
         <?php
         foreach ($ratios as $ratio){
-            echo '<li>'. $ratio["pseudo"] .' : '. $ratio["ratio_victoire"] .'</li>';
+            echo "<tr>";
+            echo "<td>1</td>";
+            echo "<td>".$ratio['pseudo']."</td>";
+            echo "<td>".$ratio['ratio_victoire']."</td>";
+            echo "</tr>";
         }
         ?>
-    </ol>
-
+    </table>
+        <div class="actions">
+            <a href="index.php">Rejouer</a>
+        </div>
     <?php
     }
 

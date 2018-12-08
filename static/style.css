@@ -1,0 +1,91 @@
+body {
+    background-image:-webkit-gradient(linear, left bottom, right top, from(#6d327c), color-stop(#485DA6), color-stop(#00a1ba), color-stop(#00BF98), to(#36C486));
+    background-image:-webkit-linear-gradient(left bottom, #6d327c, #485DA6, #00a1ba, #00BF98, #36C486);
+    background-image:-o-linear-gradient(left bottom, #6d327c, #485DA6, #00a1ba, #00BF98, #36C486);
+    background-image:linear-gradient(to right top, #6d327c, #485DA6, #00a1ba, #00BF98, #36C486);
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+h1:nth-child(1) {
+    margin-bottom: 30px;
+    height: 100px;
+    line-height: 100px;
+}
+h1 {
+    text-align: center;
+}
+table {
+    text-align: center;
+    margin: auto;
+}
+table#grille {
+    border: 1px solid black;
+    margin: auto;
+    border-collapse: collapse;
+}
+table#grille th {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+
+    font-weight: bold;
+}
+table#grille th a {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: lightgray;
+    border-radius: 50%;
+    text-decoration: none;
+    color: black;
+}
+table#grille th a#selected {
+    background-color: #95a5a6;
+}
+table#grille th a:hover {
+    background-color: #95a5a6;
+}
+table#grille th a.blocked {
+    background-color: #e74c3c;
+}
+table#grille th a.validated {
+    background-color: #2ecc71;
+}
+.actions, .erreur, .resultatText {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.actions a {
+    padding: 5px;
+    background-color: lightgray;
+    border: 1px solid black;
+    text-decoration: none;
+    color: #000;
+}
+div.horizontal {
+    width: 100%;
+    height: 3px;
+    background-color: grey;
+    margin-bottom: 2px;
+}
+div.vertical {
+    width: 3px;
+    height: 100%;
+    background-color: grey;
+    margin-right: 2px;
+    display: inline-block;
+}
+
+table.resultat {
+    border: 1px solid black;
+}
+table.resultat:nth-last-child(n){
+    margin-bottom: 40px;
+}
+table.resultat th, table.resultat td {
+    border: 1px solid black;
+}
