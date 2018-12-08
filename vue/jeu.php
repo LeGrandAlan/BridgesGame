@@ -78,8 +78,8 @@ if(!isset($_SESSION['villes'])) {
 <h1>Jeu d'Hashiwokakero (Bridges Game)</h1>
 <div class="actions">
     <a href="index.php">Reinitialiser</a>
-    <a href="">Abandonner</a>
-    <a href="">Annuler le coup prédécent</a>
+    <a href="index.php?abondonner">Abandonner</a>
+    <a href="index.php?annulercoup">Annuler le coup prédécent</a>
 </div>
 <table>
 <?php

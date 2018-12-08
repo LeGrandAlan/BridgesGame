@@ -52,6 +52,10 @@ class Pont
         return $this->nbVoies;
     }
 
+    function setNbVoies($nb){
+        $this->nbVoies = $nb;
+    }
+
     /**
      * Ajoute une voie sauf si il y en a déjà 2 -> 0 voie dans ce cas là
      * @return int nombre de pont(s) ajouté(s) ou supprimé(s)
@@ -75,6 +79,14 @@ class Pont
             $equals = true;
         }
         return $equals;
+    }
+
+    /**
+     * Retourne le hash du pont
+     * @return string hash de ce pont
+     */
+    public function hash() {
+        return $this->ville1->getId() . '-' . $this->ville2->getId() . '-' . $this->estHorizontal();
     }
 
 }

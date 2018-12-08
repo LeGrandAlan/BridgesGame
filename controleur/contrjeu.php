@@ -34,7 +34,7 @@ class Contrjeu {
         $_SESSION['villes'] = serialize($this->modeleVilles);
         $this->modelePonts = new Ponts();
         $_SESSION['ponts'] = serialize($this->modelePonts);
-        $this->pilePonts = array();
+        $this->pilePonts = [];
         $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
         $this->vue->jeu();
@@ -79,15 +79,15 @@ class Contrjeu {
                 if($this->modelePonts->pontExiste($ville1, $ville2, $horizontal)){
                     $pont = $this->modelePonts->getPont($ville1, $ville2, $horizontal);
                     $differencePont = $pont->ajouterVoie($ville1, $ville2);
-                    $this->pilePonts = array_push($this->pilePonts, array($pont, $differencePont)); // TODO: /!\ pas le même type
-                    print_r(array($pont, $differencePont));
+                    $this->pilePonts[sizeof($this->pilePonts)][$pont->hash()] = $pont;
                     if($differencePont == -2) {
                         $this->modelePonts->supprimerPont($pont);
                     }
                 } else {
                     $this->modelePonts->ajoutPont($ville1, $ville2, $horizontal);
                     $differencePont = 1;
-                    $this->pilePonts = array_push($this->pilePonts, array(new Pont($ville1, $ville2, $horizontal), $differencePont));
+                    $pont = new Pont($ville1, $ville2, $horizontal);
+                    $this->pilePonts[sizeof($this->pilePonts)][$pont->hash()] = $pont;
                 }
 
                 //ajout ou suppression de pont(s) à chaque ville
@@ -104,14 +104,57 @@ class Contrjeu {
         if($this->modeleVilles->sontToutesBonnes()){
             $_SESSION['gagne'] = true;
             header('Location: index.php');
-            //echo "ET C'EST GAGNE !!!";
         }
 
-        echo "<pre>";
-        print_r($this->pilePonts);
-        echo "</pre>";
-
         //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)
+        $_SESSION['villes'] = serialize($this->modeleVilles);
+        $_SESSION['ponts'] = serialize($this->modelePonts);
+        $_SESSION['pile_ponts'] = serialize($this->pilePonts);
+
+        $this->vue->jeu();
+    }
+
+
+    public function annulerPrecedent() {
+        $this->modeleVilles = unserialize($_SESSION['villes']);
+        $this->modelePonts = unserialize($_SESSION['ponts']);
+        $this->pilePonts = unserialize($_SESSION['pile_ponts']);
+
+        if(!empty($this->pilePonts)){
+            $dernierPont = $this->pilePonts[sizeof($this->pilePonts)-1];
+            $hashPont = key($dernierPont);
+            $pont = $this->modelePonts->getPontParHash($hashPont);
+            if($pont==null) { // si le pont n'existe pas (il a été supprimé du plateau) alors on prend l'objet Pont enregistré et on le recrer
+                $pont = $dernierPont[$hashPont];
+            }
+            $coordville1 = $this->modeleVilles->getCoord($pont->getVille1());
+            $coordville2 = $this->modeleVilles->getCoord($pont->getVille2());
+
+            //si le pont a été supprimé, alors on va le rajouter
+            if($pont->getNbVoies() == 0) {
+                $pont->setNbVoies(2);
+                $this->modelePonts->ajoutPontSimple($pont);
+                $this->modeleVilles->setVille($coordville1['x'], $coordville1['y'], 1);
+                $this->modeleVilles->setVille($coordville2['x'], $coordville2['y'], 1);
+            } else {
+                // il faut enlever une ville /!\ il faut voir si il n'y a plus de pont et dans ce cas la le supprimer
+                $this->modelePonts->supprimerPont($pont);
+
+                $this->modeleVilles->setVille($coordville1['x'], $coordville1['y'], -1);
+                $this->modeleVilles->setVille($coordville2['x'], $coordville2['y'], -1);
+
+                if($pont->getNbVoies() == 0) { //si il n'y a plus de voies sur le pont, on le supprime
+                    unset($pont);
+                }
+            }
+
+            unset($this->pilePonts[sizeof($this->pilePonts)-1]);
+
+        } else {
+            echo "Vous ne pouvez pas revenir en arrière";
+        }
+
+        //TODO: faire une fonction pour ça
         $_SESSION['villes'] = serialize($this->modeleVilles);
         $_SESSION['ponts'] = serialize($this->modelePonts);
         $_SESSION['pile_ponts'] = serialize($this->pilePonts);

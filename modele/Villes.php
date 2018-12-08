@@ -58,10 +58,10 @@ class Villes{
      * Modifieur qui value le nombre de ponts de la ville en position $i et $j
      * @param $i int position horizontale
      * @param $j int position verticale
-     * @param $nombrePonts int nombre de pont(s) de la ville
+     * @param $nombrePonts int nombre de pont a ajouter (+) ou a enlever (-)
      */
     function setVille($i, $j, $nombrePonts){
-        $this->getVille($i, $j)->setNombrePonts($nombrePonts);
+        $this->getVille($i, $j)->setNombrePonts($this->getVille($i, $j)->getNombrePonts() + $nombrePonts);
     }
 
 

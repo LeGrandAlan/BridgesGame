@@ -1,7 +1,6 @@
 <?php
 
 require "Pont.php";
-//require "Ville.php";
 
 class Ponts
 {
@@ -42,6 +41,20 @@ class Ponts
     }
 
     /**
+     * Retourne le pont (si'il existe) qui correspont au hash donnée en paramètre
+     * @param $hash string à comparer avec les pont dans le grille
+     * @return Pont|null retourne le pont si il y est, null sinon
+     */
+    public function getPontParHash($hash) {
+        for($i = 0; $i < sizeof($this->ponts); $i++) {
+            if(isset($this->ponts[$i]) && ($this->ponts[$i]->hash() == $hash)) {
+                return $this->ponts[$i];
+            }
+        }
+        return null;
+    }
+
+    /**
      * Ajoute un pont
      * @param $v1 Ville sélectionnée comme départ du pont
      * @param $v2 Ville sélectionnée comme arrivé du pont
@@ -56,13 +69,23 @@ class Ponts
         }
     }
 
+    public function ajoutPontSimple($pont) {
+        array_push($this->ponts, $pont);
+    }
+
     /**
      * Supprime le pont
      * @param $pont Pont a supprimer
      */
     public function supprimerPont($pont) {
-        unset($this->ponts[array_search($pont, $this->ponts)]); //on supprime le pont
-        $this->ponts = array_values($this->ponts); //on réindex pour que les ponts soient à des index qui se suivent
+        // on va tester si il y a deux voies, dans ce cas là on enlève une voie sinon on le supprime
+        if($pont->getNbVoies() == 2) {
+            $pont->setNbVoies(1);
+        } else {
+            $pont->setNbVoies(0);
+            unset($this->ponts[array_search($pont, $this->ponts)]); //on supprime le pont de la liste des ponts
+            $this->ponts = array_values($this->ponts); //on réindex pour que les ponts soient à des index qui se suivent
+        }
     }
 
     /**

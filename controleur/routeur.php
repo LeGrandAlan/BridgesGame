@@ -24,6 +24,10 @@ class Routeur {
                 $gagne = $_SESSION['gagne'];
                 unset($_SESSION['gagne']);
                 $this->contrResultats->afficher($gagne);
+            } else if (isset($_GET['annulercoup'])) {
+                $this->jeu->annulerPrecedent();
+            } else if (isset($_GET['abandonner'])) {
+                $this->jeu->abandonner(); //TODO: à faire
             } else {
                 $this->jeu->init_jeu();
             }
