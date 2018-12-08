@@ -16,14 +16,16 @@ class ContrResultats {
         }
     }
 
-    public function afficher($gagne) {
+    public function afficher($gagne=null) {
         //TODO: afficher la place dans le classement
-        if($gagne) {
-            $this->daoResultats->ajouterVictoire($_SESSION['pseudo']);
+        if(isset($gagne)) {
+            $this->daoResultats->ajouterPartie($_SESSION['pseudo'], $gagne);
         }
-        $resultatJoueur = $this->daoResultats->partiesGagneesJoueur($_SESSION['pseudo']);
+        $partiesGagneesJoueur = $this->daoResultats->partiesGagneesJoueur($_SESSION['pseudo']);
+        $partiesJoueesJoueur = $this->daoResultats->partiesJoueesJoueur($_SESSION['pseudo']);
         $meilleursResultats = $this->daoResultats->statsMeilleursJoueurs();
-        $this->vue->resultats($gagne, $resultatJoueur['partieGagnee'], $meilleursResultats);
+        $ratios = $this->daoResultats->ratioMeilleursJoueurs();
+        $this->vue->resultats($gagne, $partiesGagneesJoueur['partiesGagnee'], $partiesJoueesJoueur['partiesJouees'], $meilleursResultats, $ratios);
     }
 
 }

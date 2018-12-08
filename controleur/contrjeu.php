@@ -70,7 +70,7 @@ class Contrjeu {
                     $horizontal = false;
                 } else {
                     //ne sont pas liables => il y a un pont ou une ville entre les deux villes
-                    echo "Les villes ne sont pas liables car il y a une ville ou un pont entre les deux villes sélectionnée !";
+                    $_SESSION['erreur'] = "Les villes ne sont pas liables car il y a une ville ou un pont entre les deux villes sélectionnée !";
                     $this->vue->jeu();
                     return;
                 }
@@ -97,13 +97,13 @@ class Contrjeu {
                 unset($_SESSION['selectionne']);
 
             } else {
-                echo "Vous ne pouvez pas créer de pont entre ces deux villes !";
+                $_SESSION['erreur'] = "Vous ne pouvez pas créer de pont entre ces deux villes !";
             }
         }
 
         if($this->modeleVilles->sontToutesBonnes()){
             $_SESSION['gagne'] = true;
-            header('Location: index.php');
+            header('Location: index.php?resultat');
         }
 
         //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)
@@ -151,7 +151,7 @@ class Contrjeu {
             unset($this->pilePonts[sizeof($this->pilePonts)-1]);
 
         } else {
-            echo "Vous ne pouvez pas revenir en arrière";
+            $_SESSION['erreur'] = "Vous ne pouvez pas revenir en arrière";
         }
 
         //TODO: faire une fonction pour ça

@@ -78,11 +78,13 @@ if(!isset($_SESSION['villes'])) {
 <h1>Jeu d'Hashiwokakero (Bridges Game)</h1>
 <div class="actions">
     <a href="index.php">Reinitialiser</a>
-    <a href="index.php?abondonner">Abandonner</a>
+    <a href="index.php?abandonner">Abandonner</a>
     <a href="index.php?annulercoup">Annuler le coup prédécent</a>
 </div>
+        <div class="erreur"><?php if (isset($_SESSION['erreur'])){ echo $_SESSION['erreur'];} ?></div>
 <table>
 <?php
+unset($_SESSION['erreur']);
 $villes = unserialize($_SESSION['villes']);
 $ponts = unserialize($_SESSION['ponts']);
 $matricePonts = $ponts->matricePonts();
@@ -127,7 +129,6 @@ for ($y = 0; $y < 7; $y++){
 }
 ?>
 </table>
-
 <?php
 
 }

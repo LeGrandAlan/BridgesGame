@@ -20,23 +20,46 @@ class DAOResultats {
         $this->connexion=null;
     }
 
-    public function ajouterVictoire($pseudoJoueur) {
-        $statement = $this->connexion->prepare("update parties set partieGagnee = partieGagnee + 1  where pseudo=?;");
+    //TODO: COMMENTER TOUT CA
+    public function ajouterPartie($pseudoJoueur, $gagne) {
+        $statement = $this->connexion->prepare("insert into parties (pseudo, partieGagnee) values (?, ?);");
         $statement->bindParam(1, $pseudoJoueur);
+        $statement->bindParam(2, $gagne);
         $statement->execute();
     }
 
     public function partiesGagneesJoueur($pseudoJoueur) {
-        $statement = $this->connexion->prepare("select partieGagnee from parties where pseudo=?;");
+        $statement = $this->connexion->prepare("select count(*) as partiesGagnee from parties where pseudo=? and partieGagnee = '1';");
         $statement->bindParam(1, $pseudoJoueur);
         $statement->execute();
-        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        $result = $statement->fetch();
+        return $result;
+    }
+
+    public function partiesJoueesJoueur($pseudoJoueur) {
+        $statement = $this->connexion->prepare("select count(*) as partiesJouees from parties where pseudo=?;");
+        $statement->bindParam(1, $pseudoJoueur);
+        $statement->execute();
+        $result = $statement->fetch();
         return $result;
     }
 
     public function statsMeilleursJoueurs() {
-        //TODO: faire le ratio /!\ il faudra changer la structure de la base de données
-        $statement = $this->connexion->prepare("select pseudo, partieGagnee from parties order by partieGagnee desc limit 3;");
+        $statement = $this->connexion->prepare("Select pseudo, count(*) as partiesGagnee from parties where partieGagnee = '1' group by pseudo asc limit 3;");
+        $statement->execute();
+        $result = $statement->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function ratioMeilleursJoueurs() {
+        $statement = $this->connexion->prepare("
+            Select p1.pseudo, count(p1.pseudo) / partiesJouees as ratio_victoire
+            from parties p1
+                left join 
+                  (SELECT p2.id, p2.pseudo, count(*) as partiesJouees from parties p2 group by p2.pseudo) p2
+                ON p1.id = p2.id
+            where p1.partieGagnee = '1' group by p1.pseudo ORDER by 2 desc limit 3;
+        ");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;
