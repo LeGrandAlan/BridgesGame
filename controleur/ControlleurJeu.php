@@ -91,18 +91,30 @@ class ControlleurJeu {
                 }
 
                 //ajout du pont sur la "carte" des ponts
+
                 if($this->modelePonts->pontExiste($ville1, $ville2, $horizontal)){
                     $pont = $this->modelePonts->getPont($ville1, $ville2, $horizontal);
                     $differencePont = $pont->ajouterVoie($ville1, $ville2);
                     $this->pilePonts[sizeof($this->pilePonts)][$pont->hash()] = $pont;
                     if($differencePont == -2) {
                         $this->modelePonts->supprimerPont($pont);
+                        // on supprime la liaison entre les villes
+                        $ville1->supprimerVilleLiee($ville2);
+                        $ville2->supprimerVilleLiee($ville1);
+                    } else {
+                        //ajout des liaisons entre chaque villes
+                        $ville1->ajouterVilleLiee($ville2);
+                        $ville2->ajouterVilleLiee($ville1);
                     }
                 } else {
                     $this->modelePonts->ajoutPont($ville1, $ville2, $horizontal);
                     $differencePont = 1;
                     $pont = new Pont($ville1, $ville2, $horizontal);
                     $this->pilePonts[sizeof($this->pilePonts)][$pont->hash()] = $pont;
+
+                    //ajout des liaisons entre chaque villes
+                    $ville1->ajouterVilleLiee($ville2);
+                    $ville2->ajouterVilleLiee($ville1);
                 }
 
                 //ajout ou suppression de pont(s) à chaque ville
@@ -127,6 +139,9 @@ class ControlleurJeu {
         $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
         $this->vue->jeu();
+        echo "<pre>";
+        var_dump($this->modeleVilles);
+        echo "</pre>";
     }
 
     /**
@@ -144,6 +159,7 @@ class ControlleurJeu {
             if($pont==null) { // si le pont n'existe pas (il a été supprimé du plateau) alors on prend l'objet Pont enregistré et on le recrer
                 $pont = $dernierPont[$hashPont];
             }
+
             $coordville1 = $this->modeleVilles->getCoord($pont->getVille1());
             $coordville2 = $this->modeleVilles->getCoord($pont->getVille2());
 
@@ -153,6 +169,20 @@ class ControlleurJeu {
                 $this->modelePonts->ajoutPontSimple($pont);
                 $this->modeleVilles->setVille($coordville1['x'], $coordville1['y'], 1);
                 $this->modeleVilles->setVille($coordville2['x'], $coordville2['y'], 1);
+                //on récupère les villes nouvellement créées
+                $ville1 = $this->modeleVilles->getVille($coordville1['x'], $coordville1['y']);
+                $ville2 = $this->modeleVilles->getVille($coordville2['x'], $coordville2['y']);
+                //ajout des liaisons entre chaque villes TODO: ne marche pas quand il faut rajouter les liaisons et que pendant on rajoute une autre liaison avec une autre ville
+                var_dump($ville1);
+                echo "test";
+                $ville1->ajouterVilleLiee($ville2);
+                echo "<br><br>";
+                var_dump($ville1); // l'ajout marche bien mais ne passe pas à l'ajout 2
+                echo "test 2";
+                echo "<br><br>";
+                var_dump($ville2);
+                $ville2->ajouterVilleLiee($ville1);
+                echo "test 3";
             } else {
                 // il faut enlever une ville /!\ il faut voir si il n'y a plus de pont et dans ce cas la le supprimer
                 $this->modelePonts->supprimerPont($pont);
@@ -160,12 +190,18 @@ class ControlleurJeu {
                 $this->modeleVilles->setVille($coordville1['x'], $coordville1['y'], -1);
                 $this->modeleVilles->setVille($coordville2['x'], $coordville2['y'], -1);
 
+                $ville1 = $this->modeleVilles->getVille($coordville1['x'], $coordville1['y']);
+                $ville2 = $this->modeleVilles->getVille($coordville2['x'], $coordville2['y']);
+
                 if($pont->getNbVoies() == 0) { //si il n'y a plus de voies sur le pont, on le supprime
                     unset($pont);
+                    // on supprime la liaison entre les villes
+                    $ville1->supprimerVilleLiee($ville2);
+                    $ville2->supprimerVilleLiee($ville1);
                 }
             }
 
-            unset($this->pilePonts[sizeof($this->pilePonts)-1]);
+            unset($this->pilePonts[sizeof($this->pilePonts) - 1]);
 
         } else {
             $_SESSION['erreur'] = "Vous ne pouvez pas revenir en arrière";
@@ -177,6 +213,9 @@ class ControlleurJeu {
         $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
         $this->vue->jeu();
+        echo "<pre>";
+        var_dump($this->modeleVilles);
+        echo "</pre>";
     }
 
 }

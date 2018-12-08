@@ -23,7 +23,7 @@ class Ville{
         $this->id=$id;
         $this->nombrePontsMax=$nombrePontsMax;
         $this->nombrePonts=$nombrePonts;
-        $this->villesLiees=null;
+        $this->villesLiees=[];
     }
 
     /**
@@ -59,6 +59,46 @@ class Ville{
     }
 
     //il faut ici implémenter les méthodes qui permettent de lier des villes entre elles, ...
+
+    /**
+     * Méthode qui ajoute la ville en paramètre dans les villes liées à celle ci
+     * @param $ville Ville ville à lier à cette ville
+     */
+    public function ajouterVilleLiee($ville) {
+        if(!$this->estLieeAvec($ville)) {
+            $this->villesLiees[sizeof($this->villesLiees)] = $ville;
+        }
+    }
+
+    /**
+     * Méthode qui supprimer la ville en paramètre, aux villes liées à celle ci
+     * @param $ville Ville ville à supprimer des villes liées
+     * @return bool vrai si la ville est supprimé, faux sinon
+     */
+    public function supprimerVilleLiee($ville) {
+        for ($i = 0; $i < sizeof($this->villesLiees); $i++) {
+            if ($this->villesLiees[$i]->equals($ville)) {
+                unset($this->villesLiees[$i]);
+                $this->villesLiees = array_values($this->villesLiees); //on réindex pour que les villes liées soient à des index qui se suivent
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Méthode qui indique si la ville en paramètre est liée avec celle ci
+     * @param $ville Ville ville à tester avec celle ci
+     * @return bool vrai si elle sont liées, faux sinon
+     */
+    public function estLieeAvec($ville) {
+        for ($i = 0; $i < sizeof($this->villesLiees); $i++) {
+            if ($this->villesLiees[$i]->equals($ville)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Indique si deux villes sont égales en fonction de leur id
