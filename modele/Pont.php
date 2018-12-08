@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Pont
+ */
 class Pont
 {
     private $ville1;

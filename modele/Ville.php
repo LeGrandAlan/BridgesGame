@@ -1,6 +1,8 @@
 <?php
 
-
+/**
+ * Class Ville
+ */
 class Ville{
     // permet d'identifier de manière unique la ville
     private $id;

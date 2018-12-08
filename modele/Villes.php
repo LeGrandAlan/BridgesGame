@@ -2,6 +2,9 @@
 // cette classe ne doit pas être modifiée
 require "Ville.php";
 
+/**
+ * Class Villes
+ */
 class Villes{
 
     private $villes;

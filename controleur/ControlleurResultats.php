@@ -2,11 +2,17 @@
 require_once PATH_DAO . '/DAOResultats.php';
 require_once PATH_VUE . '/VueResultats.php';
 
-class ContrResultats {
+/**
+ * Class ControlleurResultats
+ */
+class ControlleurResultats {
 
     private $daoResultats;
     private $vue;
 
+    /**
+     * ControlleurResultats constructor.
+     */
     function __construct() {
         try {
             $this->daoResultats = new DAOResultats();
@@ -16,6 +22,10 @@ class ContrResultats {
         }
     }
 
+    /**
+     * Méthode qui récupère les données en base de donnée et qui affche la page de résultat
+     * @param $gagne bool|null vrai si l'utilisateur a gagné, faux sinon. Null si la page est simplement demandée (sans partie avant)
+     */
     public function afficher($gagne=null) {
         //TODO: afficher la place dans le classement
         if(isset($gagne)) {

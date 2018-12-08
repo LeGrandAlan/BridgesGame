@@ -2,6 +2,9 @@
 
 require "Pont.php";
 
+/**
+ * Class Ponts
+ */
 class Ponts
 {
     public $ponts;

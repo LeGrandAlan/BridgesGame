@@ -1,21 +1,31 @@
 <?php
-require_once PATH_VUE.'/jeu.php';
+require_once PATH_VUE . '/VueJeu.php';
 require_once PATH_MODELE.'/Villes.php';
 require_once PATH_MODELE.'/Ville.php';
 require_once PATH_MODELE.'/Ponts.php';
 
-class Contrjeu {
+/**
+ * Class ControlleurJeu.
+ * Controlleur qui gère le jeu.
+ */
+class ControlleurJeu {
 
     private $vue;
     private $modeleVilles;
     private $modelePonts;
     private $pilePonts;
 
+    /**
+     * ControlleurJeu constructor.
+     */
     public function __construct() {
         $this->vue = new VueJeu();
     }
 
-    //TODO: attention ne marche que pour grille de 7*7
+    /**
+     * Méthode qui initialise toutes les variables de sessions
+     * et affiche la grille de jeu de base
+     */
     public function init_jeu(){
         if(isset($_SESSION["selectionne"])){
             unset($_SESSION["selectionne"]);
@@ -40,6 +50,11 @@ class Contrjeu {
         $this->vue->jeu();
     }
 
+    /**
+     * Méthode qui permet de gérer le tour de jeu de l'utilisateur
+     * @param $x int coordonnée x de la ville sélectionnée
+     * @param $y int coordonnée y de la ville sélectionnée
+     */
     public function jouer($x, $y){
         //chargement des villes et des ponts en utilisant leurs modèles
         $this->modeleVilles = unserialize($_SESSION['villes']);
@@ -114,7 +129,9 @@ class Contrjeu {
         $this->vue->jeu();
     }
 
-
+    /**
+     * Méthode qui revient au coup précédent
+     */
     public function annulerPrecedent() {
         $this->modeleVilles = unserialize($_SESSION['villes']);
         $this->modelePonts = unserialize($_SESSION['ponts']);
