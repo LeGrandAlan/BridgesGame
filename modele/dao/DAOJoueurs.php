@@ -61,6 +61,22 @@ Class DAOJoueurs {
     }
 
     /**
+     * Méthode qui ajoute un utilisateur en base de donnée
+     * @param $pseudo string pseudo de l'utilisateur à ajouter
+     * @param $mdp string mot de passe de l'utilisateur à ajouter
+     * @return bool vrai si ajout effectué, faux sinon
+     */
+    public function ajouterJoueur($pseudo, $mdp) {
+        $statement = $this->connexion->prepare("insert into joueurs (pseudo, motDePasse) values (?, ?);");
+        $statement->bindParam(1, $pseudo);
+        $mdp_param = crypt($mdp, $mdp); // TODO: la fonction crypt est temporaire (besoins du DM)
+        $statement->bindParam(2, $mdp_param);
+        $statement->execute();
+
+        return ($statement->rowCount() == 1); // si une ligne est affecté, l'ajout est bon
+    }
+
+    /**
      * Méthode qui récupère le mot de passe de l'utilisateur
      * @param $pseudo string pseudo de l'utilisateur à tester
      * @return string mot de passe de l'utilisateur

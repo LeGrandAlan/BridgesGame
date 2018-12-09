@@ -2,21 +2,21 @@
 require_once 'head.php';
 
 /**
- * Class Vuelogin
+ * Class VueInscription
  */
-Class Vuelogin{
+Class VueInscription {
 
     /**
-     * Affiche la vue du formulaire de connection
+     * Affiche la vue du formulaire d'inscription
      */
-    public function login(){
+    public function afficher(){
 
         ?>
 
         <html>
         <body>
-        <h1>Page de connection</h1>
-        <form method="post" action="index.php" id="connection">
+        <h1>Page d'inscription</h1>
+        <form method="post" action="index.php" id="inscription">
             <table>
                 <tr>
                     <td><label for="pseudo">Pseudo : </label></td>
@@ -27,13 +27,13 @@ Class Vuelogin{
                     <td><input type="password" id="motdepasse" name="motdepasse" required/></td>
                 </tr>
                 <tr>
-                    <td colspan=2><input style="margin-top: 10px;" type="submit" name="seconnecter" value="Connection"/></td>
+                    <td colspan=2><input style="margin-top: 10px;" type="submit" name="inscription" value="M'inscrire"/></td>
                 </tr>
             </table>
             <p style="text-align: center"><?php if (isset($_SESSION['erreur'])) echo $_SESSION['erreur']; ?></p>
         </form>
         <div class="actions">
-            <a href="index.php?inscription">Inscription</a>
+            <a href="index.php">Page de connection</a>
         </div>
         </body>
         </html>
