@@ -16,6 +16,7 @@ Class VueInscription {
         <html>
         <body>
         <h1>Page d'inscription</h1>
+        <p style="text-align: center"><?php if (isset($_SESSION['erreur'])) echo $_SESSION['erreur']; ?></p>
         <form method="post" action="index.php" id="inscription">
             <table>
                 <tr>
@@ -30,8 +31,8 @@ Class VueInscription {
                     <td colspan=2><input style="margin-top: 10px;" type="submit" name="inscription" value="M'inscrire"/></td>
                 </tr>
             </table>
-            <p style="text-align: center"><?php if (isset($_SESSION['erreur'])) echo $_SESSION['erreur']; ?></p>
         </form>
+        </br>
         <div class="actions">
             <a href="index.php">Page de connection</a>
         </div>

@@ -16,7 +16,11 @@ Class Vuelogin{
         <html>
         <body>
         <h1>Page de connection</h1>
+
+        <p style="text-align: center"><?php if (isset($_SESSION['erreur'])) echo $_SESSION['erreur']; ?></p>
+
         <form method="post" action="index.php" id="connection">
+
             <table>
                 <tr>
                     <td><label for="pseudo">Pseudo : </label></td>
@@ -30,8 +34,8 @@ Class Vuelogin{
                     <td colspan=2><input style="margin-top: 10px;" type="submit" name="seconnecter" value="Connection"/></td>
                 </tr>
             </table>
-            <p style="text-align: center"><?php if (isset($_SESSION['erreur'])) echo $_SESSION['erreur']; ?></p>
         </form>
+        </br>
         <div class="actions">
             <a href="index.php?inscription">Inscription</a>
         </div>
