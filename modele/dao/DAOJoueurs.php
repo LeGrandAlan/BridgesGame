@@ -69,7 +69,7 @@ Class DAOJoueurs {
     public function ajouterJoueur($pseudo, $mdp) {
         $statement = $this->connexion->prepare("insert into joueurs (pseudo, motDePasse) values (?, ?);");
         $statement->bindParam(1, $pseudo);
-        $mdp_param = crypt($mdp, $mdp); // TODO: la fonction crypt est temporaire (besoins du DM)
+        $mdp_param = crypt($mdp, sprintf('$6$rounds=%d$%s$', 2000, substr(bin2hex(openssl_random_pseudo_bytes(16)),0,16)));
         $statement->bindParam(2, $mdp_param);
         $statement->execute();
 
@@ -100,4 +100,3 @@ Class DAOJoueurs {
 
 
 }
-
