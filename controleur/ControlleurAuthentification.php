@@ -49,11 +49,11 @@ class ControlleurAuthentification{
                     $_SESSION['pseudo'] = $pseudo;
                     header('Location: index.php');
                 } else {
-                    echo "Mauvaise combinaison mot de passe/pseudo.";
+                    $_SESSION['erreur'] = "Mauvaise combinaison mot de passe/pseudo.";
                     $this->accueil();
                 }
             } else {
-                echo "Mauvaise combinaison mot de passe/pseudo.";
+                $_SESSION['erreur'] = "Mauvaise combinaison mot de passe/pseudo.";
                 $this->accueil();
             }
         } catch (TableAccesException $e) {
