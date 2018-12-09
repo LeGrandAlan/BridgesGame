@@ -86,6 +86,11 @@ class Ville{
         return false;
     }
 
+    //todo: commenter
+    public function getVillesLiees() {
+        return $this->villesLiees;
+    }
+
     /**
      * Méthode qui indique si la ville en paramètre est liée avec celle ci
      * @param $ville Ville ville à tester avec celle ci
@@ -98,6 +103,14 @@ class Ville{
             }
         }
         return false;
+    }
+
+    /**
+     * Retourne une chaine de caractère qui identifie uniquement la ville (id)
+     * @return string
+     */
+    public function __toString() {
+        return 'ID:' . $this->id;
     }
 
     /**

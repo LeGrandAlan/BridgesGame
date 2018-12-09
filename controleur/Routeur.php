@@ -34,7 +34,7 @@ class Routeur {
                 unset($_SESSION['gagne']);
                 $this->controlleurResultat->afficher($gagne);
             } else if (isset($_GET['abandonner'])) {
-                $this->controlleurResultat->afficher($gagne=false);
+                $this->controlleurResultat->afficher(false);
             } else if (isset($_GET['resultat'])) {
                 $this->controlleurResultat->afficher();
             } else if (isset($_GET['annulercoup'])) {

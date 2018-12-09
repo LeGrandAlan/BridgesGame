@@ -18,7 +18,7 @@ Class VueResultats
     public function resultats($partieGagnee, $partiesGagneesJoueur, $partiesJoueesJoueur, $meilleursResultats, $ratios) {
         if($partieGagnee) {
             echo "<h1>Vous avez gagné !</h1>";
-        } else if ($partieGagnee) {
+        } else if (!$partieGagnee) {
             echo "<h1>Vous avez perdu..</h1>";
         } // si $partieGagnee == null on n'affiche pas
         ?>

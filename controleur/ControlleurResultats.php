@@ -27,7 +27,6 @@ class ControlleurResultats {
      * @param $gagne bool|null vrai si l'utilisateur a gagné, faux sinon. Null si la page est simplement demandée (sans partie avant)
      */
     public function afficher($gagne=null) {
-        //TODO: afficher la place dans le classement
         if(isset($gagne)) {
             $this->daoResultats->ajouterPartie($_SESSION['pseudo'], $gagne);
         }

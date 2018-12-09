@@ -139,9 +139,6 @@ class ControlleurJeu {
         $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
         $this->vue->jeu();
-        echo "<pre>";
-        var_dump($this->modeleVilles);
-        echo "</pre>";
     }
 
     /**
@@ -173,16 +170,8 @@ class ControlleurJeu {
                 $ville1 = $this->modeleVilles->getVille($coordville1['x'], $coordville1['y']);
                 $ville2 = $this->modeleVilles->getVille($coordville2['x'], $coordville2['y']);
                 //ajout des liaisons entre chaque villes TODO: ne marche pas quand il faut rajouter les liaisons et que pendant on rajoute une autre liaison avec une autre ville
-                var_dump($ville1);
-                echo "test";
                 $ville1->ajouterVilleLiee($ville2);
-                echo "<br><br>";
-                var_dump($ville1); // l'ajout marche bien mais ne passe pas à l'ajout 2
-                echo "test 2";
-                echo "<br><br>";
-                var_dump($ville2);
                 $ville2->ajouterVilleLiee($ville1);
-                echo "test 3";
             } else {
                 // il faut enlever une ville /!\ il faut voir si il n'y a plus de pont et dans ce cas la le supprimer
                 $this->modelePonts->supprimerPont($pont);
@@ -213,9 +202,6 @@ class ControlleurJeu {
         $_SESSION['pile_ponts'] = serialize($this->pilePonts);
 
         $this->vue->jeu();
-        echo "<pre>";
-        var_dump($this->modeleVilles);
-        echo "</pre>";
     }
 
 }
