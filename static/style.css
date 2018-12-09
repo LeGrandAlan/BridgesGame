@@ -8,6 +8,10 @@ body {
     height: 100%;
     width: 100%;
 }
+form#connection {
+    margin: auto;
+    display: table;
+}
 h1:nth-child(1) {
     margin-bottom: 30px;
     height: 100px;

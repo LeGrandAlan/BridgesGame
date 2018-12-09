@@ -17,7 +17,7 @@ Class Vuelogin{
         <body>
         <br/>
         <br/>
-        <form method="post" action="index.php">
+        <form method="post" action="index.php" id="connection">
             <input type="text" name="pseudo"/>
             <input type="password" name="motdepasse"/>
             </br>

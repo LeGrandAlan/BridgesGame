@@ -15,15 +15,14 @@ class Villes{
     function __construct(){
         // tableau représentatif d'un jeu qui servira à développer votre code
         $this->villes[0][0]=new Ville("0",3,0);
-
-        /*$this->villes[0][6]=new Ville("1",2,0);
+        $this->villes[0][6]=new Ville("1",2,0);
         $this->villes[3][0]=new Ville("2",6,0);
         $this->villes[3][5]=new Ville("3",2,0);
         $this->villes[5][1]=new Ville("4",1,0);
         $this->villes[5][6]=new Ville("5",2,0);
-        $this->villes[6][0]=new Ville("6",2,0);*/
+        $this->villes[6][0]=new Ville("6",2,0);
 
-        $this->villes[0][0]=new Ville("0",3,0);
+        /*$this->villes[0][0]=new Ville("0",3,0);
         $this->villes[0][4]=new Ville("1",3,0);
         $this->villes[0][6]=new Ville("2",2,0);
 
@@ -41,7 +40,7 @@ class Villes{
         $this->villes[6][0]=new Ville("10",2,0);
         $this->villes[6][2]=new Ville("11",1,0);
         $this->villes[6][4]=new Ville("12",4,0);
-        $this->villes[6][6]=new Ville("13",3,0);
+        $this->villes[6][6]=new Ville("13",3,0);*/
     }
 
 
@@ -124,6 +123,10 @@ class Villes{
         }
     }
 
+    /**
+     * Retourne la première ville (arbitrairement de gauche à droite et de haut en bas) du plateau
+     * @return Ville|null, null si le plateau est vide
+     */
     public function premiereVille() {
         for ($x = 0; $x < 7; $x++) {
             for ($y = 0; $y < 7; $y++) {
@@ -135,7 +138,10 @@ class Villes{
         return null;
     }
 
-    //todo: commenter
+    /**
+     * Retourne un tableau des toutes les villes que contient le plateau
+     * @return array
+     */
     public function getToutesVilles() {
         $villes = array();
         for ($x = 0; $x < 7; $x++) {
@@ -148,7 +154,10 @@ class Villes{
         return $villes;
     }
 
-    //TODO: A DEBUGER
+    /**
+     * Indique si toutes les villes sont accecibles entre elles
+     * @return bool vrai si les villes sont accecibles, faux sinon
+     */
     public function estNavigable() {
         // on prend une ville de départ
         // à partir de celle là on regarde celles auquelles elle est liée, etc.
@@ -169,7 +178,7 @@ class Villes{
 
                 // si elles sont nouvelles, on les rajoute à la liste des villes à traiter
                 $villesATraiter = array_merge_recursive($villesATraiter, $villesLiees); // on utilise pas array push
-                $villesATraiter = array_unique($villesATraiter); //TODO: array_unique se sert de __toString()
+                $villesATraiter = array_unique($villesATraiter); // array_unique se sert de __toString()
 
                 // à la fin, il faut ajouter la ville actuelle aux villes traitées
                 $villesTraitees[sizeof($villesTraitees)] = $villeActuelle;

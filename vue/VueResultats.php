@@ -16,11 +16,13 @@ Class VueResultats
      * @param $ratios array tableau contenant les 3 meilleurs joueurs en fonction de leur ratio (parties gagnées/parties jouées)
      */
     public function resultats($partieGagnee, $partiesGagneesJoueur, $partiesJoueesJoueur, $meilleursResultats, $ratios) {
-        if($partieGagnee) {
-            echo "<h1>Vous avez gagné !</h1>";
-        } else if (!$partieGagnee) {
-            echo "<h1>Vous avez perdu..</h1>";
-        } // si $partieGagnee == null on n'affiche pas
+        if(isset($partieGagnee)){
+            if($partieGagnee) {
+                echo "<h1>Vous avez gagné !</h1>";
+            } else if (!$partieGagnee) {
+                echo "<h1>Vous avez perdu..</h1>";
+            }
+        }
         ?>
 
         <h1>Vos statistiques</h1>
@@ -61,7 +63,7 @@ Class VueResultats
             <tr>
                 <th>Place</th>
                 <th>Pseudo</th>
-                <th>Ration parties gagnées/parties jouées</th>
+                <th>Ratio parties gagnées/parties jouées</th>
             </tr>
             <?php if (empty($meilleursResultats)) echo "Personne n'a encore joué.."; ?>
             <?php

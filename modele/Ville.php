@@ -86,7 +86,10 @@ class Ville{
         return false;
     }
 
-    //todo: commenter
+    /**
+     * Retourne un tableau des villes liées à celle ci
+     * @return array Tableau des villes liées à celle ci
+     */
     public function getVillesLiees() {
         return $this->villesLiees;
     }

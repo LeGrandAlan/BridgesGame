@@ -34,11 +34,14 @@ class Routeur {
                 unset($_SESSION['gagne']);
                 $this->controlleurResultat->afficher($gagne);
             } else if (isset($_GET['abandonner'])) {
-                $this->controlleurResultat->afficher(false);
+                $_SESSION['gagne'] = false;
+                header('Location: index.php?resultat');
             } else if (isset($_GET['resultat'])) {
-                $this->controlleurResultat->afficher();
+                $this->controlleurResultat->afficher(null);
             } else if (isset($_GET['annulercoup'])) {
                 $this->controlleurJeu->annulerPrecedent();
+            } else if (isset($_GET['deconnexion'])) {
+                $this->controlleurAuthentification->sedeconnecter();
             } else {
                 $this->controlleurJeu->init_jeu();
             }

@@ -2,6 +2,7 @@
 
 require_once PATH_DAO . '/DAOJoueurs.php';
 require_once PATH_VUE . '/VueLogin.php';
+require_once PATH_VUE . '/erreur/VueErreurConnectionBD.php';
 
 /**
  * Class ControlleurAuthentification
@@ -11,17 +12,20 @@ class ControlleurAuthentification{
 
     private $dao;
     private $vue;
+    private $vueErreur;
 
     /**
      * Constructeur de ControlleurAuthentification.
      */
     public function __construct() {
         try {
+            $this->vue = new Vuelogin();
+            $this->vueErreur = new VueErreurConnectionBD();
             $this->dao = new DAOJoueurs();
         } catch (ConnexionException $e) {
-            //TODO: page d'erreur de connection
+            $this->vueErreur->afficher();
+            die();
         }
-        $this->vue = new Vuelogin();
     }
 
     /**
@@ -37,7 +41,6 @@ class ControlleurAuthentification{
      * @param $motdepasse string mot de passer à tester
      */
     public function selogin($pseudo,$motdepasse){
-
         try {
             if ($this->dao->existepseudo($pseudo)) {
                 $mdpscrype = $this->dao->getmotdepasse($pseudo);
@@ -54,7 +57,17 @@ class ControlleurAuthentification{
                 $this->accueil();
             }
         } catch (TableAccesException $e) {
-            //TODO: gérer ça (affichage de la page d'erreur)
+            $this->vueErreur->afficher();
+            die();
         }
     }
+
+    public function sedeconnecter() {
+        $this->dao->deconnexion();
+        if (isset($_SESSION['pseudo'])) {
+            unset($_SESSION['pseudo']);
+        }
+        header('Location: index.php');
+    }
+
 }

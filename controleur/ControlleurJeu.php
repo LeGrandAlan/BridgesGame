@@ -51,15 +51,33 @@ class ControlleurJeu {
     }
 
     /**
+     * Méthode qui serialise les données pour les mettres en variable de session
+     */
+    public function serialiserDonnees() {
+        //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)
+        $_SESSION['villes'] = serialize($this->modeleVilles);
+        $_SESSION['ponts'] = serialize($this->modelePonts);
+        $_SESSION['pile_ponts'] = serialize($this->pilePonts);
+    }
+
+    /**
+     * Méthode qui sdéerialise les données pour les mettres en variable de l'objet
+     */
+    public function deserialiserDonnees() {
+        //chargement des villes et des ponts en utilisant leurs modèles
+        $this->modeleVilles = unserialize($_SESSION['villes']);
+        $this->modelePonts = unserialize($_SESSION['ponts']);
+        $this->pilePonts = unserialize($_SESSION['pile_ponts']);
+    }
+
+    /**
      * Méthode qui permet de gérer le tour de jeu de l'utilisateur
      * @param $x int coordonnée x de la ville sélectionnée
      * @param $y int coordonnée y de la ville sélectionnée
      */
     public function jouer($x, $y){
-        //chargement des villes et des ponts en utilisant leurs modèles
-        $this->modeleVilles = unserialize($_SESSION['villes']);
-        $this->modelePonts = unserialize($_SESSION['ponts']);
-        $this->pilePonts = unserialize($_SESSION['pile_ponts']);
+        //on récupère les données
+        $this->deserialiserDonnees();
 
         // si une case n'a pas encore été selectionnée ou que le case cliquée est celle déjà sélectionnée
         if(!isset($_SESSION['selectionne']) || ($_SESSION['selectionne']['x'] == $x && $_SESSION['selectionne']['y'] == $y )){
@@ -133,10 +151,8 @@ class ControlleurJeu {
             header('Location: index.php?resultat');
         }
 
-        //sauvegarde des modèles en variables de session (pour lecture par la vue et par ce controlleur plus tard)
-        $_SESSION['villes'] = serialize($this->modeleVilles);
-        $_SESSION['ponts'] = serialize($this->modelePonts);
-        $_SESSION['pile_ponts'] = serialize($this->pilePonts);
+        //on stock les données
+        $this->serialiserDonnees();
 
         $this->vue->jeu();
     }
@@ -145,9 +161,8 @@ class ControlleurJeu {
      * Méthode qui revient au coup précédent
      */
     public function annulerPrecedent() {
-        $this->modeleVilles = unserialize($_SESSION['villes']);
-        $this->modelePonts = unserialize($_SESSION['ponts']);
-        $this->pilePonts = unserialize($_SESSION['pile_ponts']);
+        //on récupère les données
+        $this->deserialiserDonnees();
 
         if(!empty($this->pilePonts)){
             $dernierPont = $this->pilePonts[sizeof($this->pilePonts)-1];
@@ -169,7 +184,7 @@ class ControlleurJeu {
                 //on récupère les villes nouvellement créées
                 $ville1 = $this->modeleVilles->getVille($coordville1['x'], $coordville1['y']);
                 $ville2 = $this->modeleVilles->getVille($coordville2['x'], $coordville2['y']);
-                //ajout des liaisons entre chaque villes TODO: ne marche pas quand il faut rajouter les liaisons et que pendant on rajoute une autre liaison avec une autre ville
+                //ajout des liaisons entre chaque villes
                 $ville1->ajouterVilleLiee($ville2);
                 $ville2->ajouterVilleLiee($ville1);
             } else {
@@ -196,10 +211,8 @@ class ControlleurJeu {
             $_SESSION['erreur'] = "Vous ne pouvez pas revenir en arrière";
         }
 
-        //TODO: faire une fonction pour ça
-        $_SESSION['villes'] = serialize($this->modeleVilles);
-        $_SESSION['ponts'] = serialize($this->modelePonts);
-        $_SESSION['pile_ponts'] = serialize($this->pilePonts);
+        //on stock les données
+        $this->serialiserDonnees();
 
         $this->vue->jeu();
     }

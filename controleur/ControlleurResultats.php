@@ -1,6 +1,7 @@
 <?php
 require_once PATH_DAO . '/DAOResultats.php';
 require_once PATH_VUE . '/VueResultats.php';
+require_once PATH_VUE . '/erreur/VueErreurConnectionBD.php';
 
 /**
  * Class ControlleurResultats
@@ -9,16 +10,19 @@ class ControlleurResultats {
 
     private $daoResultats;
     private $vue;
+    private $vueErreur;
 
     /**
      * ControlleurResultats constructor.
      */
     function __construct() {
         try {
+            $this->vueErreur = new VueErreurConnectionBD();
             $this->daoResultats = new DAOResultats();
             $this->vue = new VueResultats();
         } catch (ConnexionException $e) {
-            //TODO: page d'erreur de connection
+            $this->vueErreur->afficher();
+            die();
         }
     }
 
@@ -26,7 +30,7 @@ class ControlleurResultats {
      * Méthode qui récupère les données en base de donnée et qui affche la page de résultat
      * @param $gagne bool|null vrai si l'utilisateur a gagné, faux sinon. Null si la page est simplement demandée (sans partie avant)
      */
-    public function afficher($gagne=null) {
+    public function afficher($gagne) {
         if(isset($gagne)) {
             $this->daoResultats->ajouterPartie($_SESSION['pseudo'], $gagne);
         }

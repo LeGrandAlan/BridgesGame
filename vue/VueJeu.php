@@ -19,6 +19,7 @@ Class VueJeu{
             <a href="index.php">Reinitialiser</a>
             <a href="index.php?abandonner">Abandonner</a>
             <a href="index.php?annulercoup">Annuler le coup prédécent</a>
+            <a href="index.php?deconnexion">Déconnexion</a>
         </div>
         <div class="erreur"><?php if (isset($_SESSION['erreur'])){ echo $_SESSION['erreur'];} ?></div>
         <table id="grille">
