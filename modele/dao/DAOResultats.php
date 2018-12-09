@@ -33,7 +33,7 @@ class DAOResultats {
      * @param $gagne bool true si la partie est gagnée, faux sinon
      */
     public function ajouterPartie($pseudoJoueur, $gagne) {
-        $statement = $this->connexion->prepare("insert into parties (pseudo, partieGagnee) values (?, ?);");
+        $statement = $this->connexion->prepare("insert into parties (pseudo, partieGagnee) values (?, ?)");
         $statement->bindParam(1, $pseudoJoueur);
         $statement->bindParam(2, $gagne);
         $statement->execute();
@@ -45,7 +45,7 @@ class DAOResultats {
      * @return int nombre de parties gagnées
      */
     public function partiesGagneesJoueur($pseudoJoueur) {
-        $statement = $this->connexion->prepare("select count(*) as partiesGagnee from parties where pseudo=? and partieGagnee = '1';");
+        $statement = $this->connexion->prepare("select count(*) as partiesGagnee from parties where pseudo=? and partieGagnee = '1'");
         $statement->bindParam(1, $pseudoJoueur);
         $statement->execute();
         $result = $statement->fetch();
@@ -58,7 +58,7 @@ class DAOResultats {
      * @return int nombre de parties jouées
      */
     public function partiesJoueesJoueur($pseudoJoueur) {
-        $statement = $this->connexion->prepare("select count(*) as partiesJouees from parties where pseudo=?;");
+        $statement = $this->connexion->prepare("select count(*) as partiesJouees from parties where pseudo=?");
         $statement->bindParam(1, $pseudoJoueur);
         $statement->execute();
         $result = $statement->fetch();
@@ -70,7 +70,7 @@ class DAOResultats {
      * @return array
      */
     public function statsMeilleursJoueurs() {
-        $statement = $this->connexion->prepare("select pseudo, count(*) as partiesGagnee from parties where partieGagnee = '1' group by pseudo asc limit 3;");
+        $statement = $this->connexion->prepare("select pseudo, count(*) as partiesGagnee from parties where partieGagnee = '1' group by pseudo order by partiesGagnee desc limit 3;");
         $statement->execute();
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
         return $result;

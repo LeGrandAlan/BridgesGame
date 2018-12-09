@@ -31,9 +31,10 @@ class ControlleurResultats {
      * @param $gagne bool|null vrai si l'utilisateur a gagné, faux sinon. Null si la page est simplement demandée (sans partie avant)
      */
     public function afficher($gagne) {
-        if(isset($gagne)) {
-            $this->daoResultats->ajouterPartie($_SESSION['pseudo'], $gagne);
+        if (!$gagne){
+          $gagne =0;
         }
+        $this->daoResultats->ajouterPartie($_SESSION['pseudo'], $gagne);
         $partiesGagneesJoueur = $this->daoResultats->partiesGagneesJoueur($_SESSION['pseudo']);
         $partiesJoueesJoueur = $this->daoResultats->partiesJoueesJoueur($_SESSION['pseudo']);
         $meilleursResultats = $this->daoResultats->statsMeilleursJoueurs();

@@ -37,7 +37,7 @@ class Routeur {
                 $_SESSION['gagne'] = false;
                 header('Location: index.php?resultat');
             } else if (isset($_GET['resultat'])) { // quand la page de résultat est demandée
-                $this->controlleurResultat->afficher(null);
+                $this->controlleurResultat->afficher(false);
             } else if (isset($_GET['annulercoup'])) { // quand l'utilisateur veut annuler le coup précédent
                 $this->controlleurJeu->annulerPrecedent();
             } else if (isset($_GET['deconnexion'])) { // quand l'utilisateur veut se déconnecter
